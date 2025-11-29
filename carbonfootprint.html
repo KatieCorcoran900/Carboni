@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Assessment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+
+        /* background */
+        body {
+            background-color: #E7DBCD;
+            font-family: Arial, sans-serif;
+        }
+
+        /* nav header container for buttons */
+        .user-nav-container {
+            background-color: #C4C4C4; 
+            border-radius: 20px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            max-width: 400px;
+            margin-left: auto;
+        }
+
+        /* backgrounds for buttons */
+        .nav-button {
+            background-color: #FFFFFF;
+            border: none;
+            border-radius: 20px; 
+            width: 70px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            color: #000;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* to separate buttons */
+        .nav-buttons {
+            display: flex;
+            gap: 7px; 
+        }
+
+        /* hover effect */
+        .nav-button:hover {
+            background-color: #939393;
+        }
+
+        /* section for profile picture and username */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* username */
+        .user-profile {
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* profile picture placeholder */
+        .user-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; 
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #777;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        /* main container */
+        .main-container {
+            background-color: #D7CABB;
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* header for main*/
+        .header {
+            background-color: #BED7BB;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            border-radius: 5px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* adds border at bottom of each section */
+        .section {
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+        }
+
+        /* doesnt add border of last section */
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        /* styling dropdown */
+        .dropdown-menu-container {
+            width: 100%;
+            max-width: 300px;
+            min-width: 200px;
+        }
+
+        /* styling for selected dropdown items */
+        .selected-items span {
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 5px;
+            background-color: #C4C4C4;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* submit button */
+        .submit-btn {
+            background-color: #BED7BB;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px 20px;
+        }
+
+        /* hover effect for submit button */
+        .submit-btn:hover {
+            background-color: #AFC9A9;
+        }
+
+        /* input fields next to items */
+        .item-input {
+            width: 180px;
+            margin-left: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .input-wrapper {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- header nav -->
+    <div class="d-flex justify-content-between align-items-center px-4 py-3" style="background-color: #D7CABB;">
+        <div style="font-size: 24px; font-weight: bold;">Carboni</div>
+        <div class="user-nav-container">
+            <!-- nav buttons -->
+            <div class="nav-buttons">
+                <a href = "carbonfootprint.html"><button class="nav-button">Tool</button></a>
+                <a href = "Forums.html"><button class="nav-button">Forum</button></a>
+            </div>
+            <!-- username and image -->
+            <div class="user-section">
+                <div class="user-image">IMG</div>
+                <div class="user-profile" >User</div>
+                
+            </div>
+        </div> 
+    </div>
+
+    <!-- main assessmenet container -->
+    <div class="main-container shadow-sm">
+        <div class="header">Carbon Footprint Assessment</div>
+		<form id="assessment" action="assessment.html" method="GET" onsubmit="calculateCO2e()">
+			<!-- activites section -->
+			<div class="section">
+				<h5>Activities</h5>
+				<div class="dropdown-menu-container">
+					<select id="activities-dropdown" class="form-select">
+						<option value="" disabled selected>Select an activity</option>
+						<option value="Mobile phone usage">Mobile phone usage</option> 
+						<option value="Taking a hot shower">Taking a hot shower</option>
+						<option value="Doing laundry">Doing laundry</option>
+					</select>
+				</div>
+				<div id="activities-selected" class="selected-items mt-2"></div>
+			</div>
+
+			<!-- food section -->
+			<div class="section">
+				<h5>Food Consumption</h5>
+				<div class="dropdown-menu-container">
+					<select id="food-dropdown" class="form-select">
+						<option value="" disabled selected>Select food type</option>
+						<option value="Beef">Beef</option>
+						<option value="Cheese">Cheese</option>
+						<option value="Eggs">Eggs</option>
+					</select>
+				</div>
+				<div id="food-selected" class="selected-items mt-2"></div>
+			</div>
+
+			<!-- energy section -->
+			<div class="section">
+				<h5>Energy Usage</h5>
+				<div class="input-wrapper">
+					<label for="energyInput" class="form-label">Electricity usage (kWh per month):</label>
+					<input type="number" id="energyInput" name="energyInput" class="form-control item-input" placeholder="ex: 350" title="Enter kWh per month">
+				</div>
+			</div>
+
+			<!-- transportaion section -->
+			<div class="section">
+				<h5>Transportation</h5>
+				<div class="dropdown-menu-container">
+					<select id="transportation-dropdown" class="form-select">
+						<option value="" disabled selected>Select mode</option>
+						<option value="Driving a car">Driving a car</option>
+						<option value="Taking the bus">Taking the bus</option>
+						<option value="Taking a train">Taking a train</option>
+					</select>
+				</div>
+				<div id="transportation-selected" class="selected-items mt-2"></div>
+			</div>
+
+            <input type="hidden" id="totalDailyCO2e" name="totalDailyCO2e" value="">
+			<!-- submit button -->
+			<div class="text-center">
+				<button type = "submit" class="btn submit-btn">Submit</button>
+			</div>
+		</form>
+    </div>
+
+    <script>
+        const inputLabels = {
+            "Mobile phone usage": "Hours per day",
+            "Taking a hot shower": "Showers per day",
+            "Doing laundry": "Loads per week",
+
+            "Beef": "Kg of beef per week",
+            "Cheese": "Kg of cheese per week",
+            "Eggs": "Kg of eggs per week",
+
+            "Driving a car": "Miles per day (car)",
+            "Taking the bus": "Miles per day (bus)",
+            "Taking a train": "Miles per day (train)"
+        };
+
+        const selectedInputs = {};
+
+        // function to handle the dropdown selections
+        function setupDropdown(dropdownId, outputId, inputName) {
+            const dropdown = document.getElementById(dropdownId);
+            const output = document.getElementById(outputId);
+            // original list of dropdown options
+            const originalOptions = Array.from(dropdown.options).map(option => option.value);
+
+            // triggered when user selects an option and adds a span below the dropdown
+            dropdown.addEventListener("change", () => {
+                const selectedValue = dropdown.value;
+                if (selectedValue) {
+                    const item = document.createElement("span");
+                    item.textContent = selectedValue + " ";
+                    item.className = "selected-item";
+                    const removeBtn = document.createElement("button");
+                    removeBtn.innerHTML = "&times;";
+                    removeBtn.className = "btn btn-sm btn-link text-danger p-0";
+                    removeBtn.style.textDecoration = "none";
+                    removeBtn.style.marginLeft = "5px";
+                    removeBtn.onclick = () => {
+                        item.remove();
+                        hiddenInput.remove();
+                        inputField.remove();
+                        addOptionBack(dropdown, selectedValue);
+                        delete selectedInputs[selectedValue];
+                    };
+                    item.appendChild(removeBtn);
+
+                    const hiddenInput = document.createElement("input");
+                    hiddenInput.type = "hidden";
+                    hiddenInput.name = inputName;
+                    hiddenInput.value = selectedValue;
+                    hiddenInput.dataset.value = selectedValue; 
+
+                    const inputField = document.createElement("input");
+                    inputField.type = "number";
+                    inputField.className = "item-input";
+                    inputField.placeholder = inputLabels[selectedValue] || "Enter value";
+                    inputField.title = inputLabels[selectedValue] || "Enter value";
+                    selectedInputs[selectedValue] = inputField;
+
+                    item.appendChild(inputField);
+                    output.appendChild(item);
+                    output.appendChild(hiddenInput);
+
+                    removeOption(dropdown, selectedValue);
+                    dropdown.value = "";
+                }
+            });
+
+            // removes the option from the dropdown after user selects it
+            function removeOption(dropdown, value) {
+                Array.from(dropdown.options).forEach(option => {
+                    if (option.value === value) {
+                        option.remove();
+                    }
+                });
+            }
+
+            // adds option back to dropdown if removed by user
+            function addOptionBack(dropdown, value) {
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = value;
+                dropdown.appendChild(option);
+                sortDropdown(dropdown);
+            }
+
+            function sortDropdown(dropdown) {
+                const options = Array.from(dropdown.options);
+                options.sort((a, b) => a.text.localeCompare(b.text));
+                dropdown.innerHTML = "";
+                options.forEach(option => dropdown.appendChild(option));
+            }
+        }
+        // initialize the dropdowns
+        setupDropdown("activities-dropdown", "activities-selected", "activity[]");
+        setupDropdown("food-dropdown", "food-selected", "food[]");
+        setupDropdown("transportation-dropdown", "transportation-selected", "transportation[]");
+
+        function calculateCO2e() {
+            const phoneFactor = 189 / 195; // g/min
+            const showerFactor = 2000; // g/shower/day
+            const laundryFactor = 1275; // g/load/week 
+
+            const beefFactor = 60000;   // g/kg/week
+            const cheeseFactor = 21000; // g/kg/week
+            const eggsFactor = 4500;    // g/kg/week
+
+            const energyFactor = 367.26; // g/kWh/month
+
+            const carFactor = 400; // g/mile/day
+            const busFactor = 100; // g/mile/day
+            const trainFactor = 41; // g/mile/day
+
+            let dailyCO2e = 0;
+
+            for (const [item, inputField] of Object.entries(selectedInputs)) {
+                const val = parseFloat(inputField.value) || 0;
+
+                switch(item) {
+                    case "Mobile phone usage":
+                        const minutes = val * 60
+                        dailyCO2e += minutes * phoneFactor;
+                        break;
+                    case "Taking a hot shower":
+                        dailyCO2e += val * showerFactor;
+                        break;
+                    case "Doing laundry":
+                        dailyCO2e += (val * laundryFactor) / 7;
+                        break;
+
+                    case "Beef":
+                        dailyCO2e += (val * beefFactor) / 7;
+                        break;
+                    case "Cheese":
+                        dailyCO2e += (val * cheeseFactor) / 7;
+                        break;
+                    case "Eggs":
+                        dailyCO2e += (val * eggsFactor) / 7;
+                        break;
+
+                    case "Driving a car":
+                        dailyCO2e += val * carFactor;
+                        break;
+                    case "Taking the bus":
+                        dailyCO2e += val * busFactor;
+                        break;
+                    case "Taking a train":
+                        dailyCO2e += val * trainFactor;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            const energyVal = parseFloat(document.getElementById('energyInput').value) || 0;
+            dailyCO2e += (energyVal * energyFactor) / 30;
+            document.getElementById('totalDailyCO2e').value = Math.round(dailyCO2e);
+        }
+    </script>
+</body>
+</html>

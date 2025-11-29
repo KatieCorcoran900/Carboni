@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+
+        /* background */
+        body {
+            background-color: #E7DBCD;
+            font-family: Arial, sans-serif;
+        }
+
+        /* nav header container for buttons */
+        .user-nav-container {
+            background-color: #C4C4C4; 
+            border-radius: 20px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            max-width: 400px;
+            margin-left: auto;
+        }
+
+        /* backgrounds for buttons */
+        .nav-button {
+            background-color: #FFFFFF;
+            border: none;
+            border-radius: 20px; 
+            width: 70px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            color: #000;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* to separate buttons */
+        .nav-buttons {
+            display: flex;
+            gap: 7px; 
+        }
+
+        /* hover effect */
+        .nav-button:hover {
+            background-color: #939393;
+        }
+
+        /* section for profile picture and username */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* username */
+        .user-profile {
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* profile picture placeholder */
+        .user-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; 
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #777;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        /* main container */
+        .main-container {
+            background-color: #D7CABB;
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* header for main*/
+        .header {
+            background-color: #BED7BB;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            border-radius: 5px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* adds border at bottom of each section */
+        .section {
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+        }
+
+        /* doesnt add border of last section */
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .section-container {
+            background-color: #F4EDE4;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .sub-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .image-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: #ce9e68;
+            display: inline-block;
+            border-radius: 10px;
+        }
+
+        .forum-btn {
+            background-color: #BED7BB;
+            font-weight: bold;
+            color: #333;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .forum-btn:hover {
+            background-color: #AFC9A9;
+        }
+
+        table {
+            width: 100%;
+            background-color: #e6ded6;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        th {
+            background-color: #c8b296;
+            font-weight: bold;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .download-btn {
+            background-color: #BED7BB;
+            font-weight: bold;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #AFC9A9;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <!-- header nav -->
+        <div class="d-flex justify-content-between align-items-center px-4 py-3" style="background-color: #D7CABB;">
+            <div style="font-size: 24px; font-weight: bold;">Carboni</div>
+            <div class="user-nav-container">
+                <!-- nav buttons -->
+                <div class="nav-buttons">
+                    <a href = "carbonfootprint.html"><button class="nav-button">Tool</button></a>
+                    <a href = "Forums.html"><button class="nav-button">Forum</button></a>
+                </div>
+                <!-- username and image -->
+                <div class="user-section">
+                    <div class="user-image">IMG</div>
+                    <div class="user-profile">User</div>
+                    
+                </div>
+            </div> 
+        </div>
+        
+        <div class="main-container shadow-sm"  id="capture-area">
+            <div class="header">Sustainability Practices</div>
+            <h5>Your Carbon Footprint Summary</h5>
+            <table id="summaryTable">
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Daily CO2e Emissions</td>
+                    <td id="dailyEmissionCell"></td>
+                </tr>
+                <tr>
+                    <td>Yearly CO2e Emissions</td>
+                    <td id="yearlyEmissionCell"></td>
+                </tr>
+                <tr>
+                    <td>Global Average (per person)</td>
+                    <td>~4 tons per year</td>
+                </tr>
+                <tr>
+                    <td>Comparison to Global Average</td>
+                    <td id="comparisonGlobalCell"></td>
+                </tr>
+                <tr>
+                    <td>Average American Emissions</td>
+                    <td>~16 tons per year</td>
+                </tr>
+                <tr>
+                    <td>Comparison to Average American</td>
+                    <td id="comparisonUSACell"></td>
+                </tr>
+            </table>
+            <div id="result"></div>
+            <div class="section activitySection">
+                <h5>Activities</h5>
+                <div class="sub-title">message for user</div>
+                <div class="mb-3">recommended activities</div>
+                <div class="d-flex gap-2 mb-2" id="activity-images"></div>
+                <a href = "Forums.html"><button class="forum-btn">Forums</button></a>
+            </div>
+
+            <div class="section foodSection">
+                <h5>Food Consumption</h5>
+                <div class="sub-title">message for user</div>
+                <div class="mb-3">recommended food</div>
+                <div class="d-flex gap-2 mb-2" id="food-images"></div>
+                <a href = "Forums.html"><button class="forum-btn">Forums</button></a>
+            </div>
+
+            <div class="section energySection">
+                <h5>Energy Usage</h5>
+                <div class="sub-title">message for user</div>
+                <div class="mb-3">recommended energy</div>
+                <div class="d-flex gap-2 mb-2" id="energy-images"></div>
+                <a href = "Forums.html"><button class="forum-btn">Forums</button></a>
+            </div>
+
+            <div class="section transportationSection">
+                <h5>Transportation</h5>
+                <div class="sub-title">message for user</div>
+                <div class="mb-3">recommended transportation</div>
+                <div class="d-flex gap-2 mb-2" id="transportation-images"></div>
+                <a href = "Forums.html"><button class="forum-btn">Forums</button></a>
+            </div>
+            <div class="text-center">
+                <button class="download-btn" id="downloadPdfBtn">Download PDF</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const totalCO2e = urlParams.get('totalDailyCO2e');
+
+            const resultDiv = document.getElementById('result');
+            const dailyEmissionCell = document.getElementById('dailyEmissionCell');
+            const yearlyEmissionCell = document.getElementById('yearlyEmissionCell');
+            const comparisonGlobalCell = document.getElementById('comparisonGlobalCell');
+            const comparisonUSACell = document.getElementById('comparisonUSACell');
+
+            if (totalCO2e) {
+                const dailyGrams = parseFloat(totalCO2e);
+                const dailyTons = dailyGrams / 1_000_000; 
+                const yearlyTons = dailyTons * 365;
+
+                const globalAvgYearly = 4; 
+                const usaAvgYearly = 16;
+
+                const percentageAboveGlobal = ((yearlyTons - globalAvgYearly) / globalAvgYearly) * 100;
+                let globalComparisonText;
+                if (percentageAboveGlobal > 0) {
+                    globalComparisonText = `You produce <strong>~${percentageAboveGlobal.toFixed(0)}%</strong> more than the average American.`;
+                } else {
+                    const positiveGlobalDifference = Math.abs(percentageAboveGlobal);
+                    globalComparisonText = `You produce <strong>~${positiveGlobalDifference.toFixed(0)}%</strong> less than the average American.`;
+                }
+
+                const differenceUSA = ((yearlyTons - usaAvgYearly) / usaAvgYearly) * 100;
+                let usaComparisonText;
+                if (differenceUSA > 0) {
+                    usaComparisonText = `You produce <strong>~${differenceUSA.toFixed(0)}%</strong> more than the average American.`;
+                } else {
+                    const positiveDifference = Math.abs(differenceUSA);
+                    usaComparisonText = `You produce <strong>~${positiveDifference.toFixed(0)}%</strong> less than the average American.`;
+                }
+
+                dailyEmissionCell.textContent = `${dailyGrams.toLocaleString()} g (~${(dailyGrams/1000).toLocaleString()} kg or ~${dailyTons.toFixed(1)} tons)`;
+                yearlyEmissionCell.textContent = `${(yearlyTons * 1_000_000).toLocaleString()} g (~${(yearlyTons * 1000).toLocaleString()} kg or ~${yearlyTons.toFixed(1)} tons)`;
+                comparisonGlobalCell.innerHTML = globalComparisonText;
+                comparisonUSACell.innerHTML = usaComparisonText;
+            } else {
+                resultDiv.textContent = "No data received.";
+            }
+
+            function getAllParams(param) {
+                return urlParams.getAll(param);
+            }
+            const activity = getAllParams('activity[]');
+            const food = getAllParams('food[]');
+            const transportation = getAllParams('transportation[]');
+
+            const energyInputVal = parseFloat(urlParams.get('energyInput')) || 0;
+            let energy = [];
+            if (energyInputVal > 0) {
+                energy = ["Electricity usage"];
+            }
+    
+            const activityMessages = {
+                "Mobile phone usage": "Consider reducing screen time to save electricity and improve focus.",
+                "Taking a hot shower": "Shorter showers save water and reduce energy consumption.",
+                "Doing laundry": "Wash clothes in cold water to save energy and reduce your carbon footprint."
+            };
+            const foodMessages = {
+                "Beef": "Try substituting beef occasionally with plant-based protein to lower your carbon footprint.",
+                "Cheese": "Consider plant-based cheese alternatives to help reduce environmental impact of dairy production.",
+                "Eggs": "Locally sourced eggs can reduce transportation-related emissions."
+            };
+            const energyMessages = {
+                "Electricity usage": "Consider energy-efficient appliances, LED bulbs, and solar energy to reduce your footprint."
+            };
+            const transportationMessages = {
+                "Driving a car": "Carpool or use public transportation to save fuel and reduce emissions.",
+                "Taking the bus": "Using the bus is a great choice! Consider walking or biking for shorter distances.",
+                "Taking a train": "Train travel is very eco-friendly. Keep choosing sustainable transportation!"
+            };
+
+            const foodImages = {
+                "Beef": "images/plant_protein.png",
+                "Cheese": "images/plant_based_cheese.png",
+                "Eggs": "images/local_eggs.png"
+            };
+
+            const activityImages = {
+                "Mobile phone usage": "images/phone.png",
+                "Taking a hot shower": "images/shower.png",
+                "Doing laundry": "images/laundry.png"
+            };
+
+            const energyImages = {
+                "Electricity usage": "images/solar_panel.png"
+            };
+
+            const transportationImages = {
+                "Driving a car": "images/carpool.png",
+                "Taking the bus": "images/bus.png",
+                "Taking a train": "images/train.png"
+            };
+
+            function displayMessages(sectionClass, items, messages, imagesDict) {
+                const section = document.querySelector(`.${sectionClass}`);
+                const subTitle = section.querySelector('.sub-title');
+                const mb3 = section.querySelector('.mb-3');
+    
+                const imageContainerId = sectionClass.replace("Section","-images");
+                const imageContainer = document.getElementById(imageContainerId);
+
+                if (items.length > 0) {
+                    subTitle.innerHTML = '';
+                    mb3.innerHTML = '';
+
+                    items.forEach(item => {
+                        mb3.innerHTML += `<div><strong>${item}</strong></div>`;
+                        mb3.innerHTML += `<div>${messages[item] || ''}</div><br/>`;
+                        if (imagesDict[item]) {
+                            imageContainer.innerHTML += `<img src="${imagesDict[item]}" alt="${item} alternative" style="width:160px; height:160px; border-radius:10px;">`;
+                        } else {
+                            imageContainer.innerHTML += `<div class="image-placeholder"></div>`;
+                        }
+                    });
+                } else {
+                    subTitle.innerText = `No ${sectionClass.replace('Section','').toLowerCase()} selected.`;
+                    mb3.innerText = `Select ${sectionClass.replace('Section','').toLowerCase()} for recommendations.`;
+                    imageContainer.innerHTML = '';
+                }
+            }
+    
+            displayMessages("activitySection", activity, activityMessages, activityImages);
+            displayMessages("foodSection", food, foodMessages, foodImages);
+            displayMessages("energySection", energy, energyMessages, energyImages);
+            displayMessages("transportationSection", transportation, transportationMessages, transportationImages);
+
+            const downloadBtn = document.getElementById('downloadPdfBtn');
+            downloadBtn.addEventListener('click', () => {
+                const captureArea = document.getElementById('capture-area');
+
+                html2canvas(captureArea, {
+                    scale: 2, 
+                    scrollX: 0,
+                    scrollY: 0
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+
+                    const pdf = new jsPDF('p', 'pt', 'a4');
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+                    const canvasWidth = canvas.width;
+                    const canvasHeight = canvas.height;
+
+                    const widthRatio = pdfWidth / canvasWidth;
+                    const imgHeight = canvasHeight * widthRatio;
+
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+
+                    while (heightLeft > 0) {
+                        position -= pdfHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                        heightLeft -= pdfHeight;
+                    }
+
+                    pdf.save('Carbon_Footprint_Assessment.pdf');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
